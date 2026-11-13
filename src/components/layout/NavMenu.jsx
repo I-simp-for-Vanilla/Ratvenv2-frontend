@@ -4,6 +4,7 @@ const ITEMS = [
   { to: '/data', icon: 'database', label: 'Données' },
   { to: '/sql', icon: 'file-earmark-code', label: 'Fichiers SQL' },
   { to: '/terminal', icon: 'terminal', label: 'Terminal' },
+  { to: '/doc', icon: 'filetype-md', label: 'Documentation' },
 ];
 
 export default function NavMenu() {

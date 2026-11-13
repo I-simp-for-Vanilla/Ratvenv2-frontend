@@ -7,6 +7,8 @@ import SearchBar from '../ui/SearchBar';
 import ConnectorMenu from './ConnectorMenu';
 import NotificationMenu from './NotificationMenu';
 
+import logo from '../../assets/logo.png'
+
 export default function Header() {
   const { navOpen, setNavOpen, chatOpen, setChatOpen } = useLayout();
   const { theme, toggle } = useTheme();

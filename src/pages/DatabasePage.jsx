@@ -9,12 +9,15 @@ import ConfirmModal from '../components/ui/ConfirmModal';
 import Dropdown, { MenuItem, MenuSeparator } from '../components/ui/Dropdown';
 import CreateTableModal from '../components/data/CreateTableModal';
 import { DATABASES } from '../mock';
+import useFetch from '../hooks/useFetch';
 
 export default function DatabasePage() {
   const { db } = useParams();
-  const info = DATABASES.find((d) => d.name === db);
+  const databases = useFetch("http://127.0.0.1:8000/databases/")
+  const info = databases?.data?.result?.find((d) => d.name === db);
   const [creating, setCreating] = useState(false);
   const [toDelete, setToDelete] = useState(null);
+  const { execute: request } = useFetch(null, { method: 'DELETE' })
 
   if (!info) return <EmptyState icon="database-x" title="Base introuvable" text={`Aucune base nommée « ${db} » sur ce connecteur.`} />;
 
@@ -71,7 +74,7 @@ export default function DatabasePage() {
       <CreateTableModal open={creating} onClose={() => setCreating(false)} onSubmit={(values) => console.log('Créer la table', values)} />
       <ConfirmModal open={!!toDelete} title="Supprimer la table" confirmLabel="Supprimer la table"
         text={`La table « ${toDelete?.name} » et ses ${toDelete?.rows.toLocaleString('fr-FR')} lignes seront supprimées définitivement.`}
-        onClose={() => setToDelete(null)} onConfirm={() => { console.log('Supprimer', toDelete); setToDelete(null); }} />
+        onClose={() => setToDelete(null)} onConfirm={() => { console.log('Supprimer', toDelete); request({ url: `http://127.0.0.1:8000/databases/ratven/tables/${toDelete.name}` }); setToDelete(null); }} />
     </div>
   );
 }
